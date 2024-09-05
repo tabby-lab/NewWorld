@@ -2,12 +2,13 @@
 
 import React, { useRef, useEffect } from 'react'
 import DeckGL from '@deck.gl/react'
-import { MapView} from '@deck.gl/core'
+import { MapView } from '@deck.gl/core'
 import { ScatterplotLayer } from '@deck.gl/layers'
 import * as THREE from 'three'
 
 const DeckGLMap = () => {
-  const deckRef = useRef(null)
+  const deckContainerRef = useRef(null)
+  const threeRendererRef = useRef(null)
 
   useEffect(() => {
     // Initialize THREE.js scene
@@ -20,7 +21,8 @@ const DeckGLMap = () => {
     )
     const renderer = new THREE.WebGLRenderer()
     renderer.setSize(window.innerWidth, window.innerHeight)
-    document.body.appendChild(renderer.domElement)
+    deckContainerRef.current.appendChild(renderer.domElement)
+    threeRendererRef.current = renderer
 
     // Create a basic 3D globe
     const geometry = new THREE.SphereGeometry(5, 32, 32)
@@ -42,8 +44,21 @@ const DeckGLMap = () => {
 
     // Cleanup function
     return () => {
-      document.body.removeChild(renderer.domElement)
+      if (threeRendererRef.current) {
+        deckContainerRef.current.removeChild(threeRendererRef.current.domElement)
+      }
     }
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (threeRendererRef.current) {
+        threeRendererRef.current.setSize(window.innerWidth, window.innerHeight)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   // Define DeckGL and MapView
@@ -61,18 +76,19 @@ const DeckGLMap = () => {
   ]
 
   return (
-    <DeckGL
-      ref={deckRef}
-      views={[new MapView({ controller: true })]} // Using MapView from deck.gl
-      layers={deckGlLayers}
-      initialViewState={{
-        longitude: -122.41669,
-        latitude: 37.7853,
-        zoom: 11,
-        pitch: 30,
-        bearing: 0,
-      }}
-    />
+    <div ref={deckContainerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      <DeckGL
+        views={[new MapView({ controller: true })]} // Using MapView from deck.gl
+        layers={deckGlLayers}
+        initialViewState={{
+          longitude: -122.41669,
+          latitude: 37.7853,
+          zoom: 11,
+          pitch: 30,
+          bearing: 0,
+        }}
+      />
+    </div>
   )
 }
 
