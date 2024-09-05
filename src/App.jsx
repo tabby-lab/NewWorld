@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import ThreeScene from './components/ThreeScene'
+import DeckGLMap from './components/DeckGLMap'
+import D3Chart from './components/D3Chart'
 
 
 function App() {
@@ -10,8 +12,10 @@ function App() {
 
   return (
     <>
-        <h1>Three.js with React and Vite</h1>
-        <ThreeScene />
+      <h1>3D Mapping with Deck.gl and Three.js</h1>
+      <DeckGLMap />
+      <h2>D3.js Visualization</h2>
+      <D3Chart />
     </>
   )
 }
