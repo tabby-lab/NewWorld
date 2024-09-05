@@ -1,10 +1,11 @@
 // src/components/DataLoader.jsx
+
 import React, { useState, useEffect } from 'react'
 import { csv } from 'd3-fetch'
 
 const DataLoader = ({ onDataLoaded }) => {
   useEffect(() => {
-    csv('/path/to/your/data.csv')
+    csv('/data/WorldBank_Data.csv') // Path to CSV file in public folder
       .then((data) => {
         onDataLoaded(data)
       })
