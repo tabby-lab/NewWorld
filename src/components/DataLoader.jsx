@@ -19,15 +19,17 @@ const DataLoader = ({ onDataLoaded }) => {
       })
   }, [onDataLoaded]) // Dependency array: re-run if onDataLoaded changes
 
-  if (!data) return <p>Loading...</p> // Display loading state
+  return <p>Loading data...</p>;
 
-  return (
-    <div>
-      <h2>Data Loaded</h2>
-      {/* Render or process the data here */}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  )
+  // if (!data) return <p>Loading...</p> // Display loading state
+
+  // return (
+  //   <div>
+  //     <h2>Data Loaded</h2>
+  //     {/* Render or process the data here */}
+  //     <pre>{JSON.stringify(data, null, 2)}</pre>
+  //   </div>
+  // )
 }
 
 export default DataLoader

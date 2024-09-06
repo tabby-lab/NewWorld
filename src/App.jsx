@@ -14,10 +14,9 @@ function App() {
 
   return (
     <>
-      <h1>3D Mapping with Deck.gl and Three.js</h1>
-      <DeckGLMap />
-      <h2>D3.js Visualization</h2>
+      <h1>Interactive World Bank Data Visualization</h1>
       <DataLoader onDataLoaded={setData} />
+      <DeckGLMap data={data} />
       {data && <D3Chart data={data} />}
     </>
   )
